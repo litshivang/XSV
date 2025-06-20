@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import List, Optional
+from typing import List, Optional, Literal
 from pydantic import BaseModel, Field
 
 
@@ -39,14 +39,11 @@ class LegDetail(BaseModel):
 
 
 class SingleLegInquiry(TripInquiry):
-    inquiry_type: InquiryType = Field(InquiryType.SINGLE_LEG, const=True)
-    # all data lives in the base fields (destinations will contain one entry)
+    pass
 
 
 class MultiLegInquiry(TripInquiry):
-    inquiry_type: InquiryType         = Field(InquiryType.MULTI_LEG, const=True)
-    legs: List[LegDetail]             = Field(..., description="Detailed per-location legs")
-    # You may leave the base TripInquiry.destinations empty or duplicate from legs
+    legs: List[LegDetail] = Field(..., description="Detailed per-location legs")
 
 
 class ModificationDetail(BaseModel):
@@ -56,7 +53,7 @@ class ModificationDetail(BaseModel):
 
 
 class ModificationInquiry(BaseModel):
-    inquiry_type: InquiryType          = Field(InquiryType.MODIFICATION, const=True)
-    original_inquiry_id: str           = Field(..., description="Reference to the original inquiry")
-    changes: List[ModificationDetail]  = Field(..., description="List of requested changes")
-    deadline: Optional[str]            = Field(None, description="By when to resend the updated quote")
+    inquiry_type: InquiryType = Field(default=InquiryType.MODIFICATION)
+    original_inquiry_id: str = Field(..., description="Reference to the original inquiry")
+    changes: List[ModificationDetail] = Field(..., description="List of requested changes")
+    deadline: Optional[str] = Field(None, description="By when to resend the updated quote")
