@@ -130,11 +130,6 @@ class ExcelGenerator:
                     worksheet.merge_range(row, 0, row, 3, f'LOCATION: {location.upper()}', location_format)
                     row += 1
                     
-                    # Location details
-                    worksheet.write(row, 1, 'Number of Travellers:', bold_format)
-                    worksheet.write(row, 2, details.get('travelers', {}).get('value', 'Not specified'))
-                    row += 1
-                    
                     worksheet.write(row, 1, 'Duration:', bold_format)
                     worksheet.write(row, 2, details.get('duration', {}).get('value', 'Not specified'))
                     row += 1

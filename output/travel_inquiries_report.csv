@@ -1,4 +1,0 @@
-File Name,Customer Name,Contact Information,Destinations,Number of Travelers,Budget,Duration,Travel Dates,Special Requirements,Processing Status,Processing Time (seconds),Extraction Method
-inquiry_001.txt,John Doe,"john.doe@email.com, +91 9876543210",Goa,4,"Rs. 50,000",5 days,"15/12/2024, 20/12/2024",,Success,0.003,Rule-based
-inquiry_002.txt,Priya Sharma,priya.sharma@gmail.com,Kerala,2,"Rs. 80,000",7 days,,"Flight booking required, Visa assistance needed, Honeymoon package",Success,0.003,Rule-based
-inquiry_003.txt,Tourist Group,"tourist@example.com, 9123456789","Rajasthan, Jaipur",6,$2000,10 days,,Tour guide required,Success,0.0,Rule-based
