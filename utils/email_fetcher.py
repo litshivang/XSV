@@ -69,9 +69,7 @@ def fetch_live_emails(max_results=10) -> List[Dict]:
                     body = base64.urlsafe_b64decode(data).decode()
                     break
 
-        emails.append(
-            {"message_id": msg_id, "from": sender, "subject": subject, "body": body}
-        )
+        emails.append({"sender": sender, "subject": subject, "body": body})
 
         # ✅ Mark as read
         service.users().messages().modify(

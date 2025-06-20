@@ -213,7 +213,7 @@ class ProductionInquiryProcessor:
             inquiry_type = self.detect_inquiry_type(full_text)
             detected_language = self.detect_language(full_text)
             customer_name = self.extract_customer_name(body)
-            customer_email = self._extract_email_address(email_data.get('from', ''))
+            customer_email = self._extract_email_address(email_data.get('sender', ''))
             phone = self._extract_phone(body)
             destinations = self.extract_destinations(full_text)
             travelers = self.extract_travelers(body)
@@ -332,7 +332,7 @@ class ProductionEmailSender:
     def send_reply_with_quote(self, email_data: Dict[str, Any], quote_path: str, inquiry_id: str) -> bool:
         """Send professional reply with quote attachment"""
         try:
-            customer_email = self._extract_email_address(email_data.get('from', ''))
+            customer_email = self._extract_email_address(email_data.get('sender', ''))
             subject = email_data.get('subject', 'Travel Inquiry')
             
             reply_content = f"""Dear Valued Customer,
@@ -431,7 +431,7 @@ class ProductionTravelAgent:
         
         for i, email_data in enumerate(sample_emails, 1):
             print(f"\n--- Processing Production Email {i}/{len(sample_emails)} ---")
-            print(f"From: {email_data['from']}")
+            print(f"From: {email_data.get('sender', '')}")
             print(f"Subject: {email_data['subject']}")
             
             # Process inquiry
