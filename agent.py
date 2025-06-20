@@ -8,6 +8,7 @@ from modules.extractor import EnhancedNERExtractor
 from modules.inquiry_classifier import InquiryClassifier
 from modules.excel_generator import ExcelGenerator
 from utils.email_fetcher import fetch_live_emails
+from utils.email_sender import GmailEmailSender
 
 
 # Setup logging
@@ -217,30 +218,43 @@ class TravelAgentProcessor:
 
 
 def main():
-    """
-    Main function to run the travel agent system on live emails only
-    """
     processor = TravelAgentProcessor()
     excel_generator = ExcelGenerator()
+    mailer = GmailEmailSender()
 
     try:
         live_emails = fetch_live_emails()
-        
         if not live_emails:
             logger.warning("No live emails fetched. Exiting.")
             return
 
         logger.info(f"{len(live_emails)} live emails fetched. Starting processing...")
 
-        for inquiry in live_emails:
+        for idx, inquiry in enumerate(live_emails, start=1):
+            # 1) Process
             result = processor.process_inquiry(inquiry)
+            # 2) Make ID unique
+            result['inquiry_id'] = f"{result['inquiry_id']}_{idx}"
+            # 3) Generate Excel
             excel_path = excel_generator.generate_inquiry_report(result)
+            logger.info(f"Excel generated: {excel_path}")
 
-            logger.info(f"Processed Inquiry ID: {result.get('inquiry_id')}")
-            logger.info(f"Language Detected: {result.get('language_info', {}).get('primary_language')}")
-            logger.info(f"Inquiry Type: {result.get('inquiry_type', {}).get('type')}")
-            logger.info(f"Destinations: {result.get('location_details', {}).get('all_destinations')}")
-            logger.info(f"Excel Generated At: {excel_path}")
+            # 4) Send back the quote
+            subject = f"Your Travel Quote — {result['inquiry_id']}"
+            body_text = (
+                "Hello,\n\n"
+                "Please find attached your travel quote. Let us know if you have any questions.\n\n"
+                "Regards,\nYour Travel Agent"
+            )
+            if mailer.send_email_with_attachment(
+                to_email=inquiry['sender'],
+                subject=subject,
+                body_text=body_text,
+                attachment_path=excel_path
+            ):
+                logger.info(f"Quote sent to {inquiry['sender']}")
+            else:
+                logger.error(f"Failed to send quote to {inquiry['sender']}")
 
     except Exception as e:
         logger.error(f"Critical failure during processing: {e}")
