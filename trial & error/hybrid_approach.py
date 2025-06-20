@@ -43,7 +43,7 @@ except ImportError:
 try:
     from utils.email_fetcher import fetch_live_emails
     from utils.email_sender import GmailEmailSender
-    from utils.excel_generator import ExcelGenerator
+    from utils.excel_utils import ExcelGenerator
 except ImportError as e:
     logger.warning(f"Some utility modules not found: {e}")
 
