@@ -11,7 +11,7 @@ from typing import Dict, Any, List, Optional
 from pathlib import Path
 
 # Import core modules
-from optimized_agent import OptimizedTravelAgentProcessor
+from optimized_agentV0 import OptimizedTravelAgentProcessor
 from modules.optimized_excel_generator import OptimizedExcelGenerator
 from utils.email_fetcher import fetch_live_emails
 

@@ -14,15 +14,15 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "Clean LLM Travel Agent"
+args = "AI Travel Agent"
 
 [[workflows.workflow]]
-name = "Clean LLM Travel Agent"
+name = "AI Travel Agent"
 author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "python main_travel_agent.py"
+args = "python final_automated_agent.py"
 
 [deployment]
 run = ["sh", "-c", "python final_automated_agent.py"]
