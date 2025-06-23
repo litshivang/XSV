@@ -10,7 +10,7 @@ from modules.optimized_excel_generator import OptimizedExcelGenerator
 from utils.email_fetcher import fetch_live_emails
 from utils.email_sender import GmailEmailSender
 
-
+ 
 # Setup logging
 logging.basicConfig(
     level=logging.INFO,
